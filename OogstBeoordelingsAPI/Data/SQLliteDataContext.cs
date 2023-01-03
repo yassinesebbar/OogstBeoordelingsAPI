@@ -3,9 +3,9 @@ using OogstBeoordelingsAPI.Models;
 
 namespace OogstBeoordelingsAPI.Data
 {
-    public class DataContext : DbContext
+    public class SQLliteDataContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        public SQLliteDataContext(DbContextOptions<SQLliteDataContext> options) : base(options)
         {
 
         }

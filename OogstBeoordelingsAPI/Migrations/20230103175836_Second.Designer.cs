@@ -9,7 +9,7 @@ using OogstBeoordelingsAPI.Data;
 
 namespace OogstBeoordelingsAPI.Migrations
 {
-    [DbContext(typeof(DataContext))]
+    [DbContext(typeof(SQLliteDataContext))]
     [Migration("20230103175836_Second")]
     partial class Second
     {

@@ -7,10 +7,10 @@ namespace OogstBeoordelingsAPI.Repositories
     public class UserRepository : IUserRepository
     {
 
-        private readonly DataContext _context;
+        private readonly SQLliteDataContext _context;
 
 
-        public UserRepository(DataContext context)
+        public UserRepository(SQLliteDataContext context)
         {
             _context = context;
         }
