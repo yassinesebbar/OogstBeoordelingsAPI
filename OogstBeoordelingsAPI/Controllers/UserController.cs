@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OogstBeoordelingsAPI.Data;
 using OogstBeoordelingsAPI.Dtos;
 using OogstBeoordelingsAPI.IServices;
 using OogstBeoordelingsAPI.Models;
@@ -44,13 +45,13 @@ namespace OogstBeoordelingsAPI.Controllers
 
        [Authorize]
        [HttpGet("GetAuthenticated")]
-       public ActionResult<UserReadDto> GetMyAccount()
+       public ActionResult<ReadUserDto> GetMyAccount()
         {
             var Claims = (HttpContext.User.Identity as ClaimsIdentity).Claims;
             var userId = int.Parse(Claims.FirstOrDefault(c => c.Type == ClaimTypes.PrimarySid)?.Value);
             var username = Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            return Ok(new UserReadDto(_userManagementService.GetUser(userId, username)));
+            return Ok(new ReadUserDto(_userManagementService.GetUser(userId, username)));
             //return Ok(Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value);
         }
 

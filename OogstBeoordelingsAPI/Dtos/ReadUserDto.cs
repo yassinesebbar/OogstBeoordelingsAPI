@@ -2,7 +2,7 @@
 
 namespace OogstBeoordelingsAPI.Dtos
 {
-    public class UserReadDto
+    public class ReadUserDto
     {
         public int Id { get; set; }
         public string Username { get; set; }
@@ -14,7 +14,7 @@ namespace OogstBeoordelingsAPI.Dtos
         public string City { get; set; }
         public string Adres { get; set; }
 
-        public UserReadDto(User user)
+        public ReadUserDto(User user)
         {
             Id = user.Id;
             Username = user.Username;

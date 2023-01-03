@@ -1,8 +1,12 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using OogstBeoordelingsAPI.Data;
+using OogstBeoordelingsAPI.IRepositories;
 using OogstBeoordelingsAPI.IServices;
+using OogstBeoordelingsAPI.Repositories;
 using OogstBeoordelingsAPI.Services;
 using System.Text;
 
@@ -43,7 +47,7 @@ builder.Services.AddSwaggerGen(option =>
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options => { 
+    .AddJwtBearer(options => {
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -54,12 +58,29 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                {
+                    context.Response.Headers.Add("Token-Expired", "True");
+                    context.Response.StatusCode = 200;
+                }
+                return Task.CompletedTask;
+            }
+        };
     });
 
-builder.Services.AddScoped<ITokenService>(service => new TokenService(builder.Configuration));
-builder.Services.AddSingleton<IUserManagementService, UserManagementService>();
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-;
+builder.Services.AddScoped<ITokenService>(service => new TokenService(builder.Configuration));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserManagementService, UserManagementService>();
+
+
+
 builder.Services.AddAuthorization();
 
 var app = builder.Build();

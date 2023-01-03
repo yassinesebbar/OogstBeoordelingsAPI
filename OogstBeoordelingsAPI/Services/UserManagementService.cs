@@ -1,4 +1,5 @@
 ﻿using OogstBeoordelingsAPI.Dtos;
+using OogstBeoordelingsAPI.IRepositories;
 using OogstBeoordelingsAPI.IServices;
 using OogstBeoordelingsAPI.Models;
 using OogstBeoordelingsAPI.Repositories;
@@ -9,11 +10,11 @@ namespace OogstBeoordelingsAPI.Services
     public class UserManagementService : IUserManagementService
     {
 
-        UserRepositoryMock UserRepositoryMock;
+        IUserRepository _userRepository;
 
-        public UserManagementService() 
+        public UserManagementService(IUserRepository userRepo) 
         {
-            UserRepositoryMock = new UserRepositoryMock();
+            _userRepository = userRepo;
         }
 
         public Boolean Login(string username, string password)
@@ -21,13 +22,11 @@ namespace OogstBeoordelingsAPI.Services
             return this.Authenticate(username, password);
         }
 
-        private Boolean Authenticate(string username, string password)
+        private Boolean Authenticate(string userName, string password)
         {
-            var User = UserRepositoryMock.Users.FirstOrDefault(u =>
-            u.Username == username &&
-            u.Password == password);
+            User user = _userRepository.GetUser(userName, password);
 
-            if (User != null)
+            if (user != null)
             {
                 return true;
             }
@@ -37,9 +36,11 @@ namespace OogstBeoordelingsAPI.Services
 
         public User GetUser(int userId, string userName)
         {
-            if (userId != 0 && userName != String.Empty)
+            User user = _userRepository.GetUser(userId, userName);
+
+            if (user != null)
             {
-                return UserRepositoryMock.Users.FirstOrDefault(u => u.Id == userId && u.Username == userName); ;
+                return user;
             }
 
             return null;
@@ -47,18 +48,18 @@ namespace OogstBeoordelingsAPI.Services
 
         public User GetUser(string userName, string password)
         {
-            if (password != string.Empty && userName != string.Empty)
-            {
-                return UserRepositoryMock.Users.FirstOrDefault(u => u.Username == userName && u.Password == password); ;
-            }
+            User user = _userRepository.GetUser(userName, password);
 
+            if (user != null)
+            {
+                return user;
+            }
             return null;
         }
 
         public void CreateUser(CreateUserDto createUserDto)
         {
             User newUser = new User(){ 
-                Id = createUserDto.Id, 
                 Username = createUserDto.Username, 
                 Password = createUserDto.Password, 
                 EmailAddress = createUserDto.EmailAddress, 
@@ -69,14 +70,14 @@ namespace OogstBeoordelingsAPI.Services
                 City = createUserDto.City, 
                 Adres = createUserDto.Adres};
 
-            UserRepositoryMock.Users.Add(newUser);
+            _userRepository.CreateUser(newUser);
         }
 
         public Boolean UserExist(string userName, string password)
         {
             if (password != string.Empty && userName != string.Empty)
             {
-                return UserRepositoryMock.Users.FirstOrDefault(u => u.Username == userName && u.Password == password) != null;
+                return _userRepository.GetUser(userName, password) != null;
             }
 
             return false;
@@ -84,7 +85,7 @@ namespace OogstBeoordelingsAPI.Services
 
         public List<User> GetUsers()
         {
-            return UserRepositoryMock.Users;
+            return _userRepository.GetAll();
         }
     }
 }
