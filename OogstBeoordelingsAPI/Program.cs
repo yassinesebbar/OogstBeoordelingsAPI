@@ -3,9 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
 using OogstBeoordelingsAPI.Data;
 using OogstBeoordelingsAPI.IRepositories;
 using OogstBeoordelingsAPI.IServices;
+using OogstBeoordelingsAPI.Models;
 using OogstBeoordelingsAPI.Repositories;
 using OogstBeoordelingsAPI.Services;
 using System.Text;
@@ -45,7 +47,6 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => {
         options.TokenValidationParameters = new TokenValidationParameters
@@ -75,11 +76,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddDbContext<SQLliteDataContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<IMongoCollection<Harvest>>(MongoDataContext =>
+    new MongoClient(builder.Configuration["HarvestDB:ConnectionString"])
+    .GetDatabase(builder.Configuration["HarvestDB:DatabaseName"])
+    .GetCollection<Harvest>(builder.Configuration["HarvestDB:BooksCollectionName"])
+);
+
 builder.Services.AddScoped<ITokenService>(service => new TokenService(builder.Configuration));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserManagementService, UserManagementService>();
-
-
+builder.Services.AddScoped<IImageService, ImageService>();
 
 builder.Services.AddAuthorization();
 

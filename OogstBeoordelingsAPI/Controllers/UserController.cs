@@ -13,8 +13,8 @@ namespace OogstBeoordelingsAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        ITokenService _tokenService;
-        IUserManagementService _userManagementService;
+        private readonly ITokenService _tokenService;
+        private readonly IUserManagementService _userManagementService;
 
 
         public UserController(IUserManagementService userManagementService, ITokenService tokenService)

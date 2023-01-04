@@ -10,7 +10,8 @@ namespace OogstBeoordelingsAPI.Services
 {
     public class TokenService : ITokenService
     {
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
+
         private List<Claim> ClaimsList = new List<Claim>();
 
 
@@ -43,10 +44,5 @@ namespace OogstBeoordelingsAPI.Services
             }
             return this;
         }
-
-  
-
-
-
     }
 }

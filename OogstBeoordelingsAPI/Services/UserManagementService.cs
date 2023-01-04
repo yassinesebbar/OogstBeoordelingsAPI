@@ -10,17 +10,14 @@ namespace OogstBeoordelingsAPI.Services
     public class UserManagementService : IUserManagementService
     {
 
-        IUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
 
         public UserManagementService(IUserRepository userRepo) 
         {
             _userRepository = userRepo;
         }
 
-        public Boolean Login(string username, string password)
-        {
-            return this.Authenticate(username, password);
-        }
+        public Boolean Login(string username, string password) => this.Authenticate(username, password);
 
         private Boolean Authenticate(string userName, string password)
         {
@@ -83,10 +80,8 @@ namespace OogstBeoordelingsAPI.Services
             return false;
         }
 
-        public List<User> GetUsers()
-        {
-            return _userRepository.GetAll();
-        }
+        public List<User> GetUsers() => _userRepository.GetAll();
+        
     }
 }
 
