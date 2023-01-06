@@ -31,32 +31,19 @@ namespace OogstBeoordelingsAPI.Controllers
             {
                 return NotFound("User not found");
             }
-
-            User currentUser = _userManagementService.GetUser(credentials.UserName, credentials.Password);
-            
-            var token = _tokenService
-                .SetClaim(ClaimTypes.NameIdentifier, currentUser.Username)
-                .SetClaim(ClaimTypes.PrimarySid, currentUser.Id.ToString())
-                .SetClaim(ClaimTypes.Role, currentUser.UserRole.ToString())
-                .GenerateToken();
-
-            return Ok(token);
+          
+            return Ok(_tokenService.CreateToken(_userManagementService.GetUser(credentials.UserName, credentials.Password)));
         }
 
-       [Authorize]
+      /* [Authorize]
        [HttpGet("GetAuthenticated")]
        public ActionResult<ReadUserDto> GetMyAccount()
         {
-            var Claims = (HttpContext.User.Identity as ClaimsIdentity).Claims;
-            var userId = int.Parse(Claims.FirstOrDefault(c => c.Type == ClaimTypes.PrimarySid)?.Value);
-            var username = Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
-            return Ok(new ReadUserDto(_userManagementService.GetUser(userId, username)));
-            //return Ok(Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value);
-        }
+            return Ok(new ReadUserDto(_userManagementService.GetUser(HttpContext.User)));
+        }*/
 
         [AllowAnonymous]
-        [HttpPost("CreateUser")]
+        [HttpPost("CreateAccount")]
         public ActionResult CreateUser([FromBody] CreateUserDto createUserDto)
         {
             _userManagementService.CreateUser(createUserDto);
@@ -69,11 +56,11 @@ namespace OogstBeoordelingsAPI.Controllers
             return Ok();
         }
 
-        [HttpGet("GetUsers"), Authorize(Roles = "Administrator")]
+        /*[HttpGet("GetUsers"), Authorize(Roles = "Administrator")]
         public ActionResult<User> GetUsers()
         {
             return Ok(_userManagementService.GetUsers());
-        }
+        }*/
     }
 
 }

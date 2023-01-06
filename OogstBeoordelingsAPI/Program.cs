@@ -82,10 +82,13 @@ builder.Services.AddScoped<IMongoCollection<Harvest>>(MongoDataContext =>
     .GetCollection<Harvest>(builder.Configuration["HarvestDB:BooksCollectionName"])
 );
 
-builder.Services.AddScoped<ITokenService>(service => new TokenService(builder.Configuration));
+builder.Services.AddScoped<IHarvestRepository, HarvestRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 builder.Services.AddScoped<IUserManagementService, UserManagementService>();
+builder.Services.AddScoped<ITokenService>(service => new TokenService(builder.Configuration));
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IHarvestService, HarvestService>();
 
 builder.Services.AddAuthorization();
 

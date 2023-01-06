@@ -20,7 +20,7 @@ namespace OogstBeoordelingsAPI.Services
             _configuration = configuration;
         }
 
-        public object GenerateToken()
+        private object GenerateToken()
         {
             var securitykey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securitykey, SecurityAlgorithms.HmacSha256);
@@ -36,13 +36,21 @@ namespace OogstBeoordelingsAPI.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public TokenService SetClaim(string type, string value)
+        public object CreateToken(User user)
+        {
+            SetClaim(ClaimTypes.NameIdentifier, user.Username);
+            SetClaim(ClaimTypes.PrimarySid, user.Id.ToString());
+            SetClaim(ClaimTypes.Role, user.UserRole.ToString());
+
+             return GenerateToken();
+        }
+
+        private void SetClaim(string type, string value)
         {
             if (type != string.Empty && value != string.Empty)
             {
                 ClaimsList.Add(new Claim(type, value));
             }
-            return this;
         }
     }
 }

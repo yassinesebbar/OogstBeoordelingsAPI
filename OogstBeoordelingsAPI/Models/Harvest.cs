@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace OogstBeoordelingsAPI.Models
 {
@@ -7,7 +9,7 @@ namespace OogstBeoordelingsAPI.Models
         Pending = 1,
         ToBeReviewed = 2,
         ToBeSold = 3,
-        Finished = 4
+        Closed = 4
     }
 
     public enum HarvestType
@@ -18,6 +20,8 @@ namespace OogstBeoordelingsAPI.Models
 
     public class Harvest
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; } = string.Empty;
         [Required]
         public int GrowerId { get; set; }
@@ -25,8 +29,6 @@ namespace OogstBeoordelingsAPI.Models
         public string GrowerName { get; set; } = string.Empty;
         public int ReviewerId { get; set; } = 0;
         public string ReviewerName { get; set; } = string.Empty;
-        [Required]
-        public string ImageFileName {get; set; }
         [Required]
         public int WeightKG { get; set; }
         [Required]

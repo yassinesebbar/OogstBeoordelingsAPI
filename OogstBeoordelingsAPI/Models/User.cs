@@ -4,7 +4,7 @@ namespace OogstBeoordelingsAPI.Models
 {
     public enum UserRole
     {
-        Harvester = 1,
+        Grower = 1,
         Assessor = 2,
         Administrator = 3
     }

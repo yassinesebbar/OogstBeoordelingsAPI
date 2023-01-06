@@ -1,11 +1,11 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using OogstBeoordelingsAPI.Models;
 using OogstBeoordelingsAPI.Services;
 
 namespace OogstBeoordelingsAPI.IServices
 {
     public interface ITokenService
     {
-        object GenerateToken();
-        TokenService SetClaim(string type, string value);
+        object CreateToken(User user);
     }
 }

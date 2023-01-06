@@ -54,6 +54,7 @@ namespace OogstBeoordelingsAPI.Services
             return null;
         }
 
+
         public void CreateUser(CreateUserDto createUserDto)
         {
             User newUser = new User(){ 
@@ -81,7 +82,16 @@ namespace OogstBeoordelingsAPI.Services
         }
 
         public List<User> GetUsers() => _userRepository.GetAll();
-        
+
+
+        public User GetUser(ClaimsPrincipal user)
+        {
+            var Claims = (user.Identity as ClaimsIdentity).Claims;
+            var userId = int.Parse(Claims.FirstOrDefault(c => c.Type == ClaimTypes.PrimarySid)?.Value);
+            var username = Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            return _userRepository.GetUser(userId, username);
+        }
     }
 }
 

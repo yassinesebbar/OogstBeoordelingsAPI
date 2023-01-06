@@ -5,7 +5,7 @@ namespace OogstBeoordelingsAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReportController : ControllerBase
+    public class AssessorController : ControllerBase
     {
     }
 }
