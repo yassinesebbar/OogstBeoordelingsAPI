@@ -10,6 +10,7 @@ using OogstBeoordelingsAPI.IServices;
 using OogstBeoordelingsAPI.Models;
 using OogstBeoordelingsAPI.Repositories;
 using OogstBeoordelingsAPI.Services;
+using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
+ 
+
     option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -31,6 +34,7 @@ builder.Services.AddSwaggerGen(option =>
         BearerFormat = "JWT",
         Scheme = "Bearer"
     });
+
     option.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -40,11 +44,17 @@ builder.Services.AddSwaggerGen(option =>
                 {
                     Type=ReferenceType.SecurityScheme,
                     Id="Bearer"
-                }
+                },
+                  Scheme = "oauth2",
+              Name = "Bearer",
+              In = ParameterLocation.Header,
             },
             new string[]{}
         }
     });
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    option.IncludeXmlComments(xmlPath);
 });
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -97,8 +107,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwagger(c => {c.SerializeAsV2 = true; });
+    app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
 }
 app.UseSwagger();
 app.UseSwaggerUI();
