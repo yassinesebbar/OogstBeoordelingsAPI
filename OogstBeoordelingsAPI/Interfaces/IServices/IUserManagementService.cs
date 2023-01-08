@@ -15,5 +15,6 @@ namespace OogstBeoordelingsAPI.IServices
         public void CreateUser(User newUser);
         public Boolean UserExist(string userName, string password);
         public List<User> GetUsers();
+        public void DeleteUser(User newUser);
     }
 }

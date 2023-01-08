@@ -68,6 +68,7 @@ namespace OogstBeoordelingsAPI.Services
         }
 
         public List<User> GetUsers() => _userRepository.GetAll();
+        public void DeleteUser(User user) => _userRepository.DeleteUser(user);
 
 
         public User GetUser(ClaimsPrincipal user)

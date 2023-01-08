@@ -48,6 +48,16 @@ namespace OogstBeoordelingsAPI.Controllers
 
             return Ok();
         }
+
+        [AllowAnonymous]
+        [HttpPost("DeleteUser/{id}/{username}")]
+        public ActionResult<List<User>> DeleteUser(int id, string username)
+        {
+            User user = _userManagementService.GetUser(id, username);
+            _userManagementService.DeleteUser(user);
+
+            return Ok(_userManagementService.GetUsers());
+        }
     }
 
 }
