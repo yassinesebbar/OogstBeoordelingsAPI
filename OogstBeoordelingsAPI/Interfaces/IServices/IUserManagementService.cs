@@ -12,7 +12,7 @@ namespace OogstBeoordelingsAPI.IServices
         public User GetUser(int userId, string userName);
         public User GetUser(string userName, string password);
         public User GetUser(ClaimsPrincipal identity);
-        public void CreateUser(CreateUserDto createUserDto);
+        public void CreateUser(User newUser);
         public Boolean UserExist(string userName, string password);
         public List<User> GetUsers();
     }

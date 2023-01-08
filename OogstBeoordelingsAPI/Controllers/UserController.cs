@@ -35,18 +35,11 @@ namespace OogstBeoordelingsAPI.Controllers
             return Ok(_tokenService.CreateToken(_userManagementService.GetUser(credentials.UserName, credentials.Password)));
         }
 
-      /* [Authorize]
-       [HttpGet("GetAuthenticated")]
-       public ActionResult<ReadUserDto> GetMyAccount()
-        {
-            return Ok(new ReadUserDto(_userManagementService.GetUser(HttpContext.User)));
-        }*/
-
         [AllowAnonymous]
         [HttpPost("CreateAccount")]
         public ActionResult CreateUser([FromBody] CreateUserDto createUserDto)
         {
-            _userManagementService.CreateUser(createUserDto);
+            _userManagementService.CreateUser(createUserDto.MapToUser());
 
             if (!_userManagementService.UserExist(createUserDto.Username, createUserDto.Password))
             {
@@ -55,12 +48,6 @@ namespace OogstBeoordelingsAPI.Controllers
 
             return Ok();
         }
-
-        /*[HttpGet("GetUsers"), Authorize(Roles = "Administrator")]
-        public ActionResult<User> GetUsers()
-        {
-            return Ok(_userManagementService.GetUsers());
-        }*/
     }
 
 }

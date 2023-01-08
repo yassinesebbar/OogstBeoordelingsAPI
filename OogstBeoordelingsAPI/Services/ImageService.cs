@@ -1,4 +1,5 @@
 ﻿using OogstBeoordelingsAPI.IServices;
+using System.Drawing;
 
 namespace OogstBeoordelingsAPI.Services
 {
@@ -6,13 +7,10 @@ namespace OogstBeoordelingsAPI.Services
     {
         private readonly string imageFolder = Path.Combine(Directory.GetCurrentDirectory(), "Upoad\\images");
 
-        public async Task<object> GetImage(string imageName)
+        public async Task<Byte[]> GetFile(string filename)
         {
-            try
-            {
-                return await System.IO.File.ReadAllBytesAsync(Path.Combine(Directory.GetCurrentDirectory(), "Upoad\\images", imageName));
-            }
-            catch (Exception) { return null; }
+            return await System.IO.File.ReadAllBytesAsync(Path.Combine(imageFolder, filename));
+
         }
 
         public bool StoreImage(IFormFile fileModel, string fileName)
@@ -29,11 +27,12 @@ namespace OogstBeoordelingsAPI.Services
 
                 return true;
             }
-
             catch (Exception) { return false;}
         }
 
         private bool ImageFolderExist(string folder) => Directory.Exists(folder);
-        private void CreateImageFolderDirectory(string newFolder) => Directory.CreateDirectory(newFolder); 
+        private void CreateImageFolderDirectory(string newFolder) => Directory.CreateDirectory(newFolder);
+
+      
     }
 }

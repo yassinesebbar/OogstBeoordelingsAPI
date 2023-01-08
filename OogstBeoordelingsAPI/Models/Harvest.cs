@@ -24,6 +24,8 @@ namespace OogstBeoordelingsAPI.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; } = string.Empty;
         [Required]
+        public int Uid { get; set; }  
+        [Required]
         public int GrowerId { get; set; }
         [Required]
         public string GrowerName { get; set; } = string.Empty;
@@ -37,9 +39,20 @@ namespace OogstBeoordelingsAPI.Models
         [Required]
         public DateTime HarvestDate { get; set; }
         [Required]
+        public DateTime CreatedAt { get; set; }
+        [Required]
         public HarvestType Type { get; set; }
         [Required]
         public HarvestStatus Status { get; set; }
         public Review? Review { get; set; }
+        public int YearCreated { get; set; }
+        public string harvesterAddres { get; set; }
+
+        public Harvest()
+        {
+            CreatedAt = DateTime.Now;
+            YearCreated = DateTime.Now.Year;
+            Status = HarvestStatus.Pending;
+        }
     }
 }

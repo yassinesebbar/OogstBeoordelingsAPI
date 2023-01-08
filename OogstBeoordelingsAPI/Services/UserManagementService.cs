@@ -55,21 +55,7 @@ namespace OogstBeoordelingsAPI.Services
         }
 
 
-        public void CreateUser(CreateUserDto createUserDto)
-        {
-            User newUser = new User(){ 
-                Username = createUserDto.Username, 
-                Password = createUserDto.Password, 
-                EmailAddress = createUserDto.EmailAddress, 
-                UserRole = createUserDto.UserRole, 
-                FirstName = createUserDto.FirstName, 
-                LastName = createUserDto.LastName, 
-                Zipcode = createUserDto.Zipcode, 
-                City = createUserDto.City, 
-                Adres = createUserDto.Adres};
-
-            _userRepository.CreateUser(newUser);
-        }
+        public void CreateUser(User newUser) => _userRepository.CreateUser(newUser);
 
         public Boolean UserExist(string userName, string password)
         {

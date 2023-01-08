@@ -25,5 +25,22 @@ namespace OogstBeoordelingsAPI.Dtos
         public string City { get; set; }
         [Required]
         public string Adres { get; set; }
+
+        public User MapToUser()
+        {
+            return new User()
+            {
+                Username = Username,
+                Password = Password,
+                EmailAddress = EmailAddress,
+                UserRole = UserRole,
+                FirstName = FirstName,
+                LastName = LastName,
+                Zipcode = Zipcode,
+                City = City,
+                Adres = Adres
+            };
+        }
+
     }
 }

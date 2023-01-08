@@ -5,7 +5,7 @@ namespace OogstBeoordelingsAPI.Models
     public class Review
     {
         [Required]
-        public int Id { get; set; }
+        public string Id { get; set; }
         [Required]
         public string ReviewerName { get; set; }
         [Required]

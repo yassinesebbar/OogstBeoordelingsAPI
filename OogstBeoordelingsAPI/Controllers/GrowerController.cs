@@ -5,6 +5,7 @@ using OogstBeoordelingsAPI.Dto.HarvestDtos;
 using OogstBeoordelingsAPI.HarvestDtos;
 using OogstBeoordelingsAPI.IServices;
 using OogstBeoordelingsAPI.Models;
+using System.Drawing.Imaging;
 using System.Security.Claims;
 
 namespace OogstBeoordelingsAPI.Controllers
@@ -35,7 +36,7 @@ namespace OogstBeoordelingsAPI.Controllers
                 return Problem("User not found!");
             }
 
-            string harvestId = _harvestService.CreateHarvest(createHarvestDto, CurrentUser);
+            string harvestId = _harvestService.CreateHarvest(createHarvestDto.MapToHarvest(CurrentUser));
 
             if (harvestId == string.Empty)
             {
@@ -51,17 +52,48 @@ namespace OogstBeoordelingsAPI.Controllers
         }
 
 
-        [HttpPost("GetHarvest/{id}"), Authorize(Roles = "Grower")]
-        public async Task<ActionResult<Harvest>> GetHarvest(string id)
+        [HttpGet("GetHarvest/{id}"), Authorize(Roles = "Grower")]
+        public async Task<ActionResult<GetHarvestGrowerDto>> GetHarvest(string id)
         {
-            Harvest Harvest = await _harvestService.GetHarvestById(id);
+            User CurrentUser = _userManagementService.GetUser(HttpContext.User);
+            Harvest harvest = await _harvestService.GetHarvestById(id, CurrentUser.Id);
 
-            if (Harvest is null)
+            if (harvest is null)
             {
                 return NotFound("Harvest not found");
             }
 
-            return Ok(Harvest);
+            return Ok(new GetHarvestGrowerDto(harvest, await _imageService.GetFile(harvest.Id)));
+        }
+
+        [HttpGet("GetAllClosedHarvest"), Authorize(Roles = "Grower")]
+        public async Task<ActionResult<List<GetHarvestGrowerDto>>> GetAllClosedHarvest()
+        {
+            User CurrentUser = _userManagementService.GetUser(HttpContext.User);
+            List<Harvest> harvestList = await _harvestService.GetAllClosedByGrower(CurrentUser);
+            List<GetHarvestGrowerDto> harvestDtoList = new List<GetHarvestGrowerDto>();
+
+            foreach (Harvest harvest in harvestList)
+            {
+                harvestDtoList.Add(new GetHarvestGrowerDto(harvest, null));
+            }
+
+            return Ok(harvestDtoList);
+        }
+
+        [HttpGet("GetAllNotClosedHarvest"), Authorize(Roles = "Grower")]
+        public async Task<ActionResult<List<GetHarvestGrowerDto>>> GetAllActiveHarvest()
+        {
+            User CurrentUser = _userManagementService.GetUser(HttpContext.User);
+            List<Harvest> harvestList = await _harvestService.GetAllNotClosedByGrower(CurrentUser);
+            List<GetHarvestGrowerDto> harvestDtoList = new List<GetHarvestGrowerDto>();
+
+            foreach (Harvest harvest in harvestList)
+            {
+                harvestDtoList.Add(new GetHarvestGrowerDto(harvest, null));
+            }
+
+            return Ok(harvestDtoList);
         }
 
 

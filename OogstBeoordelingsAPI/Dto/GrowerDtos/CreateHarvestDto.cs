@@ -14,5 +14,20 @@ namespace OogstBeoordelingsAPI.HarvestDtos
         public DateTime HarvestDate { get; set; }
         [Required]
         public HarvestType Type { get; set; }
+
+        public Harvest MapToHarvest(User grower)
+        {
+            return new Harvest()
+            {
+                GrowerId = grower.Id,
+                GrowerName = $"{grower.FirstName} {grower.LastName}",
+                HarvestDate = HarvestDate,
+                Type = Type,
+                SubType = SubType,
+                WeightKG = WeightKG,
+                harvesterAddres = $"{grower.Adres}, {grower.Zipcode}, {grower.City}"
+            };
+        }
+
     }
 }
