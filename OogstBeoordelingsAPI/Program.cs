@@ -23,35 +23,29 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
- 
 
     option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
         Description = "Please enter a valid token",
         Name = "Authorization",
-        Type = SecuritySchemeType.Http,
+        Type = SecuritySchemeType.ApiKey,
         BearerFormat = "JWT",
         Scheme = "Bearer"
     });
 
-    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+
+    option.AddSecurityRequirement(new OpenApiSecurityRequirement{
     {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type=ReferenceType.SecurityScheme,
-                    Id="Bearer"
-                },
-                  Scheme = "oauth2",
-              Name = "Bearer",
-              In = ParameterLocation.Header,
-            },
-            new string[]{}
-        }
-    });
+        new OpenApiSecurityScheme{
+            Reference = new OpenApiReference{
+                Id = "Bearer", //The name of the previously defined security scheme.
+                Type = ReferenceType.SecurityScheme
+            }
+        },new List<string>()
+    }
+});
+
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     option.IncludeXmlComments(xmlPath);
@@ -105,13 +99,10 @@ builder.Services.AddAuthorization();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+
     app.UseSwagger(c => {c.SerializeAsV2 = true; });
-    app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
-}
-app.UseSwagger();
-app.UseSwaggerUI();
+    app.UseSwaggerUI();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAuthentication();
