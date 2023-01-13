@@ -25,7 +25,7 @@ namespace OogstBeoordelingsAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost("Login")]
-        public IActionResult Login([FromBody] LoginDto credentials)
+        public IActionResult Login([FromForm] LoginDto credentials)
         {
             if (!_userManagementService.Login(credentials.UserName, credentials.Password))
             {
@@ -37,7 +37,7 @@ namespace OogstBeoordelingsAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost("CreateAccount")]
-        public ActionResult CreateUser([FromBody] CreateUserDto createUserDto)
+        public ActionResult CreateUser([FromForm] CreateUserDto createUserDto)
         {
             _userManagementService.CreateUser(createUserDto.MapToUser());
 

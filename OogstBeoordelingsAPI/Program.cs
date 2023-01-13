@@ -23,13 +23,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
-
+    option.UseInlineDefinitionsForEnums();
     option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
         Description = "Please enter a valid token",
         Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey,
+        Type = SecuritySchemeType.Http,
         BearerFormat = "JWT",
         Scheme = "Bearer"
     });
@@ -37,12 +37,15 @@ builder.Services.AddSwaggerGen(option =>
 
     option.AddSecurityRequirement(new OpenApiSecurityRequirement{
     {
-        new OpenApiSecurityScheme{
-            Reference = new OpenApiReference{
-                Id = "Bearer", //The name of the previously defined security scheme.
-                Type = ReferenceType.SecurityScheme
-            }
-        },new List<string>()
+       new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
     }
 });
 
@@ -100,8 +103,8 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-    app.UseSwagger(c => {c.SerializeAsV2 = true; });
-    app.UseSwaggerUI();
+    app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

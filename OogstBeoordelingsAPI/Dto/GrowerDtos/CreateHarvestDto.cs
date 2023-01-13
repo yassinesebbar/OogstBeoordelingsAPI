@@ -1,4 +1,5 @@
 ﻿using OogstBeoordelingsAPI.Models;
+
 using System.ComponentModel.DataAnnotations;
 
 namespace OogstBeoordelingsAPI.HarvestDtos

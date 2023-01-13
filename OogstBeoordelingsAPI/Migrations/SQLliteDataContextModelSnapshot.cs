@@ -9,7 +9,7 @@ using OogstBeoordelingsAPI.Data;
 namespace OogstBeoordelingsAPI.Migrations
 {
     [DbContext(typeof(SQLliteDataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    partial class SQLliteDataContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

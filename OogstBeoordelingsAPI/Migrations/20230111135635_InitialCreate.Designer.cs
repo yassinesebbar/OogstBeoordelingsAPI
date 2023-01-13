@@ -10,8 +10,8 @@ using OogstBeoordelingsAPI.Data;
 namespace OogstBeoordelingsAPI.Migrations
 {
     [DbContext(typeof(SQLliteDataContext))]
-    [Migration("20230103175836_Second")]
-    partial class Second
+    [Migration("20230111135635_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

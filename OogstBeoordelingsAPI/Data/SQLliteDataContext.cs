@@ -7,7 +7,6 @@ namespace OogstBeoordelingsAPI.Data
     {
         public SQLliteDataContext(DbContextOptions<SQLliteDataContext> options) : base(options)
         {
-
         }
 
         public DbSet<User> Users => Set<User>();

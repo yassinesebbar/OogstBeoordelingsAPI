@@ -22,7 +22,7 @@ namespace OogstBeoordelingsAPI.Controllers
             _imageService = imageService;
         }
 
-        [HttpPost("LinkHarvestToAssessor"), Authorize(Roles = "Assessor")]
+        [HttpPost("LinkToHarvest"), Authorize(Roles = "Assessor")]
         public async Task<ActionResult> LinkHarvestToAssessor(List<string> ListHarvestIds) 
         {
             User currentUser = _userManagementService.GetUser(HttpContext.User);
@@ -31,7 +31,7 @@ namespace OogstBeoordelingsAPI.Controllers
         }
 
         [HttpPost("SubmitReview"), Authorize(Roles = "Assessor")]
-        public async Task<ActionResult> SubmitReview(ReviewDto reviewDto)
+        public async Task<ActionResult> SubmitReview([FromForm] ReviewDto reviewDto)
         {
             User currentUser = _userManagementService.GetUser(HttpContext.User);
             Boolean reviewSubmitted = await _harvestService.SubmitReview(reviewDto.MapToReview(), currentUser);
@@ -39,14 +39,14 @@ namespace OogstBeoordelingsAPI.Controllers
             return Ok(reviewSubmitted);
         }
 
-        [HttpGet("GetPendingHarvests"), Authorize(Roles = "Assessor")]
+        [HttpGet("GetPendingHarvest"), Authorize(Roles = "Assessor")]
         public async Task<ActionResult<List<OrderedHarvestListDto>>> GetPendingHarvests()
         {
             List<Harvest> PendingHarvest = await _harvestService.GetAllPending();
             return Ok(_harvestService.OrderToHarvestListDto(PendingHarvest));
         }
 
-        [HttpGet("GetToBeReviewdHarvests"), Authorize(Roles = "Assessor")]
+        [HttpGet("GetToBeReviewedHarvest"), Authorize(Roles = "Assessor")]
         public async Task<ActionResult> GetToBeReviewdHarvests()
         {
             User currentUser = _userManagementService.GetUser(HttpContext.User);
@@ -54,7 +54,7 @@ namespace OogstBeoordelingsAPI.Controllers
             return Ok(_harvestService.OrderToHarvestListDto(ClosedReviews));
         }
 
-        [HttpGet("GetClosedHarvests"), Authorize(Roles = "Assessor")]
+        [HttpGet("GetClosedHarvest"), Authorize(Roles = "Assessor")]
         public async Task<ActionResult> GetClosedHarvests()
         {
             User currentUser = _userManagementService.GetUser(HttpContext.User);

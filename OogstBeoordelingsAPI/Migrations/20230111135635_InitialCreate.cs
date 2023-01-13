@@ -5,7 +5,7 @@
 namespace OogstBeoordelingsAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class Second : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

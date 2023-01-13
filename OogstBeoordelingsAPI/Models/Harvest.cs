@@ -1,9 +1,11 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace OogstBeoordelingsAPI.Models
 {
+   
     public enum HarvestStatus
     {
         Pending = 1,
@@ -11,6 +13,7 @@ namespace OogstBeoordelingsAPI.Models
         ToBeSold = 3,
         Closed = 4
     }
+
 
     public enum HarvestType
     {
