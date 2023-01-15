@@ -26,7 +26,7 @@ namespace OogstBeoordelingsAPI.Controllers
             _imageService = imageService;
         }
         
-        [HttpPost("CreateHarvest"), Authorize]
+        [HttpPost("CreateHarvest"), Authorize(Roles = "Grower")]
         public IActionResult CreateHarvest([FromForm] CreateHarvestDto createHarvestDto)
         {
             User CurrentUser = _userManagementService.GetUser(HttpContext.User);
