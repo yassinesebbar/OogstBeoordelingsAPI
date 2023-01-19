@@ -5,20 +5,20 @@ using System.Text.Json.Serialization;
 
 namespace OogstBeoordelingsAPI.Models
 {
-   
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum HarvestStatus
     {
-        Pending = 1,
-        ToBeReviewed = 2,
-        ToBeSold = 3,
-        Closed = 4
+        Pending,
+        ToBeReviewed,
+        ToBeSold,
+        Closed
     }
 
-
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum HarvestType
     {
-        Fruit = 1,
-        Vegetable = 2,
+        Fruit,
+        Vegetable,
     }
 
     public class Harvest
@@ -44,8 +44,10 @@ namespace OogstBeoordelingsAPI.Models
         [Required]
         public DateTime CreatedAt { get; set; }
         [Required]
+        [BsonRepresentation(BsonType.String)]
         public HarvestType Type { get; set; }
         [Required]
+        [BsonRepresentation(BsonType.String)]
         public HarvestStatus Status { get; set; }
         public Review? Review { get; set; }
         public int YearCreated { get; set; }

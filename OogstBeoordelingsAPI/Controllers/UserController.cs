@@ -39,24 +39,18 @@ namespace OogstBeoordelingsAPI.Controllers
         [HttpPost("CreateAccount")]
         public ActionResult CreateUser([FromForm] CreateUserDto createUserDto)
         {
+            if (_userManagementService.UserExist(createUserDto.Username))
+            {
+                return ValidationProblem("Username already exist");
+            }
             _userManagementService.CreateUser(createUserDto.MapToUser());
 
-            if (!_userManagementService.UserExist(createUserDto.Username, createUserDto.Password))
+            if (_userManagementService.UserExist(createUserDto.Username, createUserDto.Password) == false)
             {
                 return Problem("Could not create user");
             }
 
             return Ok();
-        }
-
-        [AllowAnonymous]
-        [HttpPost("DeleteUser/{id}/{username}")]
-        public ActionResult<List<User>> DeleteUser(int id, string username)
-        {
-            User user = _userManagementService.GetUser(id, username);
-            _userManagementService.DeleteUser(user);
-
-            return Ok(_userManagementService.GetUsers());
         }
     }
 

@@ -1,6 +1,7 @@
 ﻿using OogstBeoordelingsAPI.Models;
 
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace OogstBeoordelingsAPI.HarvestDtos
 {
@@ -8,13 +9,14 @@ namespace OogstBeoordelingsAPI.HarvestDtos
     {
         public IFormFile File { get; set; }
         [Required]
-        public int WeightKG { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public HarvestType Type { get; set; }
         [Required]
         public string SubType { get; set; }
         [Required]
         public DateTime HarvestDate { get; set; }
         [Required]
-        public HarvestType Type { get; set; }
+        public int WeightKG { get; set; }
 
         public Harvest MapToHarvest(User grower)
         {

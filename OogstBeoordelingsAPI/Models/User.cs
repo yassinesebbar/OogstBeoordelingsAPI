@@ -1,12 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace OogstBeoordelingsAPI.Models
 {
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum UserRole
     {
-        Grower = 1,
-        Assessor = 2,
-        Administrator = 3
+        Grower,
+        Assessor,
+        Administrator
     }
 
     public class User

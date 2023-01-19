@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
+using Newtonsoft.Json.Converters;
 using OogstBeoordelingsAPI.Data;
 using OogstBeoordelingsAPI.IRepositories;
 using OogstBeoordelingsAPI.IServices;
@@ -17,13 +18,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+        options.SerializerSettings.Converters.Add(new StringEnumConverter())); ;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
-    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "OogstBeoordelings API", Version = "v1" });
     option.UseInlineDefinitionsForEnums();
+   
+
     option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
