@@ -18,18 +18,7 @@ namespace OogstBeoordelingsAPI.Controllers
             _userManagementService = userManagementService;
         }
 
-        [HttpGet("RemoveAllUsers"), Authorize(Roles = "Administrator")]
-        public IActionResult RemoveAllUsers()
-        {
-            User CurrentUser = _userManagementService.GetUser(HttpContext.User);
 
-            if (CurrentUser != null)
-            {
-                _userManagementService.DeleteAllUsers(CurrentUser);
-            }
-
-            return Ok();
-        }
 
         }
     }
