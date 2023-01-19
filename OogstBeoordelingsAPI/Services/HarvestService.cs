@@ -1,5 +1,4 @@
 ﻿using OogstBeoordelingsAPI.Dto.AssessorDtos;
-using OogstBeoordelingsAPI.HarvestDtos;
 using OogstBeoordelingsAPI.IRepositories;
 using OogstBeoordelingsAPI.IServices;
 using OogstBeoordelingsAPI.Models;
@@ -124,6 +123,11 @@ namespace OogstBeoordelingsAPI.Services
             }
 
             return OrderedHarvestListDto;
+        }
+
+        public async Task<Harvest> GetHarvestByIdAssessor(string harvestId, int assessorId)
+        {
+            return await _harvestRepository.GetByAssessor(harvestId, assessorId);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using OogstBeoordelingsAPI.Models;
 using System.ComponentModel.DataAnnotations;
-using System.Drawing;
 
 namespace OogstBeoordelingsAPI.Dto.HarvestDtos
 {

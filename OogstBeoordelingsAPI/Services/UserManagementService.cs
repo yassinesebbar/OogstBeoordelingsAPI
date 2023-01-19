@@ -1,10 +1,7 @@
-﻿using OogstBeoordelingsAPI.Dtos;
-using OogstBeoordelingsAPI.IRepositories;
+﻿using OogstBeoordelingsAPI.IRepositories;
 using OogstBeoordelingsAPI.IServices;
 using OogstBeoordelingsAPI.Models;
-using OogstBeoordelingsAPI.Repositories;
 using System.Security.Claims;
-using BCrypt.Net;
 
 namespace OogstBeoordelingsAPI.Services
 {

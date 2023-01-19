@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OogstBeoordelingsAPI.Dto.AssessorDtos;
 using OogstBeoordelingsAPI.IServices;
@@ -60,6 +59,20 @@ namespace OogstBeoordelingsAPI.Controllers
             User currentUser = _userManagementService.GetUser(HttpContext.User);
             List<Harvest> ClosedReviews = await _harvestService.GetClosedByAssessor(currentUser);
             return Ok(_harvestService.OrderToHarvestListDto(ClosedReviews));
+        }
+
+        [HttpGet("GetHarvest/{id}"), Authorize(Roles = "Assessor")]
+        public async Task<ActionResult<GetHarvestAssessorDto>> GetHarvest(string id)
+        {
+            User CurrentUser = _userManagementService.GetUser(HttpContext.User);
+            Harvest harvest = await _harvestService.GetHarvestByIdAssessor(id, CurrentUser.Id);
+
+            if (harvest is null)
+            {
+                return NotFound("Harvest not found");
+            }
+
+            return Ok(new GetHarvestAssessorDto(harvest, await _imageService.GetFile(harvest.Id)));
         }
 
     }

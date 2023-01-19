@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OogstBeoordelingsAPI.Data;
 using OogstBeoordelingsAPI.Dtos;
 using OogstBeoordelingsAPI.IServices;
-using OogstBeoordelingsAPI.Models;
-using System.Security.Claims;
 
 namespace OogstBeoordelingsAPI.Controllers
 {

@@ -1,5 +1,4 @@
-﻿using OogstBeoordelingsAPI.Dtos;
-using OogstBeoordelingsAPI.Models;
+﻿using OogstBeoordelingsAPI.Models;
 using System.Security.Claims;
 
 namespace OogstBeoordelingsAPI.IServices

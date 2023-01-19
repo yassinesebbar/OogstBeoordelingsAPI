@@ -1,5 +1,4 @@
-﻿using OogstBeoordelingsAPI.Dto.AssessorDtos;
-using OogstBeoordelingsAPI.Models;
+﻿using OogstBeoordelingsAPI.Models;
 
 namespace OogstBeoordelingsAPI.IRepositories
 {
@@ -15,13 +14,5 @@ namespace OogstBeoordelingsAPI.IRepositories
         Task<Harvest> GetByAssessor(string harvestId, int assessorId);
         Task<List<Harvest>> GetAllByAssessor(int assessorId, HarvestStatus status);
         Task<List<Harvest>> GetAllHarvestByStatus(HarvestStatus status);
-
-        /*   List<Harvest> GetAllByUser(User user, HarvestStatus status);
-           List<Harvest> GetAllByUser(User user);
-           Boolean Update(Harvest harvest);
-
-           // General method
-           Harvest GetById(int Id);
-           Boolean Delete(Harvest harvest);*/
     }
 }

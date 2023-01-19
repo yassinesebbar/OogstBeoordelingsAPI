@@ -1,5 +1,4 @@
 ﻿using OogstBeoordelingsAPI.IServices;
-using System.Drawing;
 
 namespace OogstBeoordelingsAPI.Services
 {

@@ -1,6 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using OogstBeoordelingsAPI.Models;
-using OogstBeoordelingsAPI.Services;
+﻿using OogstBeoordelingsAPI.Models;
 
 namespace OogstBeoordelingsAPI.IServices
 {

@@ -1,7 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using OogstBeoordelingsAPI.IServices;
 using OogstBeoordelingsAPI.Models;
-using System.Collections;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
